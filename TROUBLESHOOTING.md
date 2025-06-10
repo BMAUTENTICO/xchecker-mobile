@@ -18,7 +18,43 @@
 3. Asegúrate que "Gradle JDK" esté configurado (usa JDK 11 o superior)
 4. Click en "Try Again" en la barra de error
 
-### Error: SDK no encontrado
+## Error: Gradle Repository Configuration
+
+Si encuentras el error:
+```
+Build was configured to prefer settings repositories over project repositories but repository 'Google' was added by build file 'build.gradle'
+```
+
+Solución:
+1. Asegúrate de que settings.gradle contenga:
+```gradle
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+```
+
+2. Verifica que build.gradle use la nueva sintaxis de plugins:
+```gradle
+plugins {
+    id 'com.android.application' version '7.4.2' apply false
+    id 'com.android.library' version '7.4.2' apply false
+    id 'org.jetbrains.kotlin.android' version '1.8.20' apply false
+}
+```
+
+## Error: SDK no encontrado
 
 1. Ve a Tools > SDK Manager
 2. Instala Android SDK 33 (o la versión que necesites)
